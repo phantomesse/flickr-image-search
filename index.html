@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Flickr Image Search</title>
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css" />
+  <link rel="stylesheet" type="text/css" href="assets/css/styles.css" />
+</head>
+
+<body>
+
+  <form id="search-form">
+    <h1><b>Flickr</b> Image Search</h1>
+
+    <input id="search-query" name="text" type="text" placeholder="Search for something..." />
+    <label id="search-query-label" for="search-query">Query</label>
+    <div id="search-query-clear" class="search-clear-input"><i class="fa fa-times"></i></div>
+
+    <div id="search-advanced">
+      <section id="search-username-section">
+        <input id="search-username" name="username" class="hide-label" type="text" placeholder="All Users" />
+        <label id="search-username-label" for="search-username">Username</label>
+        <span class="search-error-message" title=""></span>
+        <div id="search-username-clear" class="search-clear-input"><i class="fa fa-times"></i></div>
+      </section>
+
+      <section id="search-min-upload-date-section">
+        <input id="search-min-upload-date" name="min_upload_date" class="hide-label" type="text" placeholder="Beginning of Time" />
+        <label id="search-min-upload-date-label" for="search-min-upload-date">Min Upload Date</label>
+        <span class="search-error-message" title=""></span>
+        <div id="search-min-upload-date-clear" class="search-clear-input"><i class="fa fa-times"></i></div>
+      </section>
+
+      <section id="search-max-upload-date-section">
+        <input id="search-max-upload-date" name="max_upload_date" class="hide-label" type="text" placeholder="Today" />
+        <label id="search-max-upload-date-label" for="search-max-upload-date">Max Upload Date</label>
+        <span class="search-error-message" title=""></span>
+        <div id="search-max-upload-date-clear" class="search-clear-input"><i class="fa fa-times"></i></div>
+      </section>
+    </div>
+
+    <button id="search-submit" type="submit" disabled>
+      <i class="fa fa-search"></i>
+    </button>
+  </form>
+
+  <div id="search-results-error-message">
+    <i class="fa fa-exclamation-triangle"></i>
+    <span></span>
+  </div>
+
+  <div id="search-results"></div>
+
+  <button id="search-results-more-button" class="hidden">load more results</button>
+
+  <div id="search-loading-bar"></div>
+
+  <script src="assets/js/jquery-2.1.1.min.js"></script>
+  <script src="assets/js/isotope.pkgd.min.js"></script>
+  <script src="node_modules/flickrapi/browser/flickrapi.dev.js"></script>
+  <script src="assets/js/cache.js"></script>
+  <script src="assets/js/scripts.js"></script>
+
+</body>
+
+</html>

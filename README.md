@@ -1,2 +1,52 @@
-flickr-image-search
-===================
+Lauren Zou (ljz2112)
+ljz2112@columbia.edu
+
+# Special Instructions for Running Application
+## Using Node.js
+If you have Node.js installed on your system, navigate to the root of this folder in the terminal and execute server.js by using the following command:
+  node server.js
+The message "Server running on 8000" should appear, which means that the server is running on port 8000. In a modern browser (preferably Google Chrome or Mozilla Firefox), go to the url:
+  localhost:8000
+
+## Using Simple Python Server
+If you do not have Node.js installed on your system, but you are running a machine with Python installed, you can run the application using the simple Python server. To do so, navigate to the root of this folder in terminal and enter the following command:
+  python -m SimpleHTTPServer
+The message "Serving HTTP on 0.0.0.0 port 8000 ..." should appear, which means that the server is running on port 8000. In a modern browser (preferably Google Chrome or Mozilla Firefox), go to the url:
+  localhost:8000
+
+# User Interface Design Decisions
+Since I was writing a search interface for Flickr, I incorporated some aesthetics from the actual Flickr website in order to help the user associate this application with Flickr. I chose to use three colors that I found on Flickr's website: a dark purple (#2D1152), a hot pink (#FF0084), and a dark gray (#202021). I also chose to use Proxima Nova as the font because the actual Flickr website uses Proxima Nova as its font. I used Flickr's entire font stack (Proxima Nova, Helvetica Neue, Helvetica, Arial, sans-serif) in order to reflect Flickr's presence in this application [1]. I noticed that, on the Flickr website, there was a trend of sharp edges (other than the search bar, which looked out of place), so I decided to use sharp edges in my design of the search interface rather than rounded corners.
+
+When I was deciding on how to lay out the page, I looked to many designs of search bars including that of Google <https://www.google.com/>, DuckDuckGo <https://duckduckgo.com/>, DogPile <http://www.dogpile.com/>, Bing <http://www.bing.com/> for inspiration. All of these websites chose to have the search bar as the main focus, since their primary functionality was search. Furthermore, these websites chose to place the search bar near the center of the page, so I took the cue to put my search bar in the center of the page (both vertically and horizontally aligned). In all of these search engine sites, the advanced functionality was hidden in order to keep the aesthetic and minimalist heuristic, but I felt that, since I didn't have many capabilities for my search engine, it was less confusing to show all the functionality at once. I experimented with having the username, min upload date, and max upload date fields slide in when the query bar is focused, but I found that having these fields hidden did not detract from the aesthetic and minimalist heuristic and in fact satisfied the flexibility and efficiency of use heuristic by allowing the user to quickly enter in the extra fields without having to click on something else to make those fields appear.
+
+When the page loads, the focus is automatically placed onto the query input box so that the user can go right to typing his or her query without having to click on the input box first.
+
+I chose to use only a magnifying glass to symbolize the search button. I noticed that DuckDuckGo and Bing both used a symbol for the search button (as opposed to using the actual word "Search"), and I felt that the magnifying glass was a well-known enough symbol that a typical user would be able to interpret it to mean search. The user can also press enter to search without ever clicking the search button, which appeals to the flexibility and efficiency of use heuristic.
+
+I used descriptive placeholders to help indicate what the user is currently searching for. When the user is not searching for a username criteria, the username input field's placeholder says "All Users" which helps the user understand that the user is searching across all users. The "All Users" placeholder turns into "username" when the user focuses on the input field in order to help the user format his or her query; this feature is particularly useful for the min and max upload date input fields since it shows the correct date format to enter.
+
+When the user enters the search query, the layout of the website changes to a results view, where the search bar is positioned at the top of the page and the input fields have a dark gray background instead of a white background. When the user is in the first view where the search bar is in the center of the page, the search bar is the focus of the page. At that point, the search bar inputs have a white background in order to constrast and stand out against the dark gray background. In the results view, the input fields have a dark gray background in order to blend in with the dark gray background in order to let the photos take the main focus of the page.
+
+I looked to Google Images and Pinterest <http://www.pinterest.com/> for inspiration for the results view. Both Google Images and Pinterest emphasize on not hiding parts of the image since the image is the most important content. But the problem was that the images came in all different dimensions, which made laying out the images difficult. I used Isotope's library to create a masonry way of laying out the search results so that the search results can be optimally laid out across the page even though each search result image has a different dimension.
+
+Clicking on different parts of a search result leads the user to a different web page. When the user clicks on the image, the user gets a link to the image. When the user clicks on the image's title, the user gets a link to the image's Flickr page. When the user clicks on the owner's buddy icon or username, the user gets a link to the user's profile page. The animations on the links also help the user discover that the links are actually links and therefore interactive.
+
+In terms of displaying more content, I originally wanted to implement an infinite scroll, but found the implementation of an infinite scroll to be too complex for the scope of this assignment. Instead, I added a "load more results" button that shows up when the user is scrolled near the end of the page to mimic an infinite scroll, but also allow the user to choose if he or she wants to see more results. The "load more results" button loads 10 more images onto the results view.
+
+[1] I downloaded the Proxima Nova Normal and Bold fonts from The Wild Blogger <http://www.thewildblogger.com/2014/05/download-proxima-nova-museo-slab500-free.html>. I downloaded the Proxima Nova Light font from FontsForWeb.com <http://fontsforweb.com/font/show/?id=12950>
+[2] I used the Isotope <http://isotope.metafizzy.co/> javscript library in order to create the masonry layout for displaying the search results
+
+# Addional Functionality
+I implemented some error handling in the search bar in order to minimize the number of wasted Flickr API calls since there is a limited number of Flickr API calls per hour. The magnifying glass search button is, by default, disabled, which means that the user cannot actually execute a search when there is nothing in the input fields (pressing enter on the keyboard when the submit button is disabled does not work either). The search button becomes disabled whenever all the input fields are empty, and then becomes enabled again whenever at least one input field has something in it.
+
+I did any error handling before attempting to call the photos.search request to limit the number of API calls that I had to make. If the user entered a username to search for, I would first check if the username existed by calling people.findByUsername. If the username does not exist, I would not even bother to call photos.search.
+
+For min and max upload dates, I created a custom date input formatter which would aid the user in entering the correct input. The date input formatter would automatically put in 0s and /s wherever appropriate and check that the user is typing in correct number every time. If the user entered a letter or an invalid symbol, the date input formatter would erase the last character that the user entered. The date input formatter is not perfect and is prone to errors if the user types really fast, so I also made sure to validate the dates after the search has been submitted (and before the Flickr API search call). The dates are validated and I made sure that the max upload date is later than the min upload date should both fields be filled in.
+
+To show the errors, I created an error element which would print out the error that the user made so that the user knows precisely what kind of error he or she made. For example, if the format of the date is incorrect, the error message would be "Invalid date format". If the max upload date is before the min upload date, the error message would be " Max upload date is before min upload date." Unfortunately, I couldn't get date validation for incorrect dates such as 02/30/2014 to work because Javascript's Date object automatically fixes incorrect dates and turns them into correct dates.
+
+If there was an error in the response from photos.search, the actual error message is displayed on the screen. If there are no results, the error "There are no results!" displays on the screen.
+
+I also implemented a loading bar in order for the user to not think that the application has broken or frozen up. The loading bar gives a sense of the application doing something for the user. The loading bar actually advances with each step of the searching. In order for Isotope's masonry to act appropriately and calculate where to place the search results, the images must first be loaded so that we know their widths and heights. This loading time takes up a little time, so it's useful to have the loading bar to show that something is actually happening in the background.
+
+In order to further minimize the number of Flickr API calls, I created a cache object which would cache the photos that were not displayed on each photos.search get. Every time photos.search is requested, 150 photos are requested, but 10 photos are only displayed on the page. The 140 photos are stored in this cache object that I created, so that when the "load more results" button is pressed, the next 10 photos come from the cache rather than from another photos.search API call. If there are more pages and the photos in the cache run out, the cache actually makes another request to photos.search to get another 150 photos.
